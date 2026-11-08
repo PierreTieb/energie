@@ -1,0 +1,259 @@
+/* ===== L'Énergie sous toutes ses formes - feuille de style ===== */
+
+/* Couleurs du décor déclarées comme vraies couleurs : le navigateur peut ainsi
+   les faire glisser en douceur d'une ambiance à l'autre. */
+@property --sky-top   { syntax: '<color>'; inherits: true; initial-value: #4A8FD6; }
+@property --sky-mid   { syntax: '<color>'; inherits: true; initial-value: #93C6F0; }
+@property --sky-low   { syntax: '<color>'; inherits: true; initial-value: #E4F3FA; }
+@property --hill-far  { syntax: '<color>'; inherits: true; initial-value: #A9CFA4; }
+@property --hill-mid  { syntax: '<color>'; inherits: true; initial-value: #7DB46A; }
+@property --hill-near { syntax: '<color>'; inherits: true; initial-value: #5A9A47; }
+@property --turbine   { syntax: '<color>'; inherits: true; initial-value: #F4F8FB; }
+@property --glow      { syntax: '<color>'; inherits: true; initial-value: rgba(255,250,220,.55); }
+@property --title     { syntax: '<color>'; inherits: true; initial-value: #FFFFFF; }
+@property --title-shadow { syntax: '<color>'; inherits: true; initial-value: rgba(22,60,110,.45); }
+@property --subtitle  { syntax: '<color>'; inherits: true; initial-value: #F2F8FF; }
+@property --stars     { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --rain      { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --snow      { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+:root {
+  --ink: #23344A;
+  --ink-soft: #52627A;
+  --success: #2F9E5E;
+  --error: #D9463B;
+  --radius-lg: 26px;
+  --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --shadow-card: 0 10px 26px rgba(20, 40, 60, .18);
+  --ambiance-speed: 1.2s;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button { font-family: inherit; -webkit-user-select: none; user-select: none; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: #4A8FD6; }
+html, body { margin: 0; padding: 0; color: var(--ink); font-family: var(--font-body); font-weight: 600; }
+body {
+  min-height: 100vh; min-height: 100dvh; overflow-x: hidden; position: relative;
+  transition: --sky-top var(--ambiance-speed), --sky-mid var(--ambiance-speed), --sky-low var(--ambiance-speed),
+              --hill-far var(--ambiance-speed), --hill-mid var(--ambiance-speed), --hill-near var(--ambiance-speed),
+              --turbine var(--ambiance-speed), --glow var(--ambiance-speed),
+              --title var(--ambiance-speed), --title-shadow var(--ambiance-speed), --subtitle var(--ambiance-speed),
+              --stars var(--ambiance-speed), --rain var(--ambiance-speed), --snow var(--ambiance-speed);
+}
+
+/* ===== Ambiances (à associer aux modules plus tard) ===== */
+body[data-ambiance="jour"] { /* valeurs initiales ci-dessus */ }
+body[data-ambiance="aube"] {
+  --sky-top: #6C7DC4; --sky-mid: #E6A8BE; --sky-low: #FFE3C9;
+  --hill-far: #B6B7A4; --hill-mid: #87A47A; --hill-near: #5F8A55;
+  --turbine: #FBEFEA; --glow: rgba(255,214,190,.6);
+  --title: #FFFFFF; --title-shadow: rgba(80,50,110,.45); --subtitle: #FFF4F2;
+}
+body[data-ambiance="crepuscule"] {
+  --sky-top: #3E4D8F; --sky-mid: #E98A57; --sky-low: #FFC77E;
+  --hill-far: #9C7E6A; --hill-mid: #6E6F48; --hill-near: #4A5634;
+  --turbine: #FFE2C4; --glow: rgba(255,170,90,.55);
+  --title: #FFF7EC; --title-shadow: rgba(70,30,20,.5); --subtitle: #FFE9D4;
+}
+body[data-ambiance="nuit"] {
+  --sky-top: #070D26; --sky-mid: #18265A; --sky-low: #2F4580;
+  --hill-far: #22355A; --hill-mid: #172B3E; --hill-near: #0F1F2B;
+  --turbine: #8C9BC0; --glow: rgba(150,170,255,.18);
+  --title: #F4F2FF; --title-shadow: rgba(0,0,0,.6); --subtitle: #C9D2F2;
+  --stars: 1;
+}
+body[data-ambiance="orage"] {
+  --sky-top: #3D464F; --sky-mid: #6C7781; --sky-low: #9AA3AA;
+  --hill-far: #7D8A80; --hill-mid: #5B6E5A; --hill-near: #3F5240;
+  --turbine: #D3D9DD; --glow: rgba(200,210,220,.15);
+  --title: #FFFFFF; --title-shadow: rgba(0,0,0,.5); --subtitle: #E6EBEF;
+  --rain: 1;
+}
+body[data-ambiance="hiver"] {
+  --sky-top: #8FAECB; --sky-mid: #CFDDEA; --sky-low: #F4F8FB;
+  --hill-far: #E3EBF2; --hill-mid: #D2DEE8; --hill-near: #C2D1DE;
+  --turbine: #FFFFFF; --glow: rgba(255,255,255,.5);
+  --title: #FFFFFF; --title-shadow: rgba(40,70,110,.55); --subtitle: #F7FBFF;
+  --snow: 1;
+}
+body[data-ambiance="canicule"] {
+  --sky-top: #5FA6DE; --sky-mid: #F2D79A; --sky-low: #FFF0C2;
+  --hill-far: #CDBB78; --hill-mid: #B49E52; --hill-near: #93803A;
+  --turbine: #FFF9EA; --glow: rgba(255,240,170,.75);
+  --title: #FFFFFF; --title-shadow: rgba(120,70,10,.5); --subtitle: #FFF8E4;
+}
+
+/* ===== Décor : ciel ===== */
+.sky { position: fixed; inset: 0; z-index: -3; pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%, var(--glow), transparent 70%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 48%, var(--sky-low) 72%, var(--sky-low) 100%);
+}
+.sky > div { position: absolute; inset: 0; }
+.sky__stars {
+  opacity: var(--stars);
+  background-image:
+    radial-gradient(1.4px 1.4px at 20px 30px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 90px 70px, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(1.6px 1.6px at 150px 20px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 60px 120px, rgba(255,255,255,.7) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 130px 140px, rgba(255,255,255,.9) 50%, transparent 51%),
+    radial-gradient(1px 1px at 190px 95px, rgba(255,255,255,.6) 50%, transparent 51%);
+  background-size: 210px 170px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 70%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 70%);
+  animation: twinkle 5s ease-in-out infinite alternate;
+}
+@keyframes twinkle { from { filter: brightness(1); } to { filter: brightness(.65); } }
+.sky__rain {
+  opacity: calc(var(--rain) * .55);
+  background-image: repeating-linear-gradient(105deg, transparent 0 14px, rgba(220,230,240,.55) 14px 15px, transparent 15px 31px);
+  background-size: 100% 140px;
+  animation: rain .5s linear infinite;
+}
+@keyframes rain { to { background-position: -38px 140px; } }
+.sky__snow {
+  opacity: var(--snow);
+  background-image:
+    radial-gradient(2.4px 2.4px at 30px 40px, #fff 50%, transparent 55%),
+    radial-gradient(1.8px 1.8px at 110px 90px, rgba(255,255,255,.9) 50%, transparent 55%),
+    radial-gradient(2.8px 2.8px at 170px 20px, #fff 50%, transparent 55%),
+    radial-gradient(1.6px 1.6px at 70px 150px, rgba(255,255,255,.85) 50%, transparent 55%),
+    radial-gradient(2.2px 2.2px at 150px 130px, #fff 50%, transparent 55%);
+  background-size: 200px 180px;
+  animation: snow 9s linear infinite;
+}
+@keyframes snow { to { background-position: 40px 180px, -30px 180px, 20px 180px, -20px 180px, 30px 180px; } }
+/* Éclair : seulement pendant l'orage */
+.sky__flash { background: #fff; opacity: 0; }
+body[data-ambiance="orage"] .sky__flash { animation: flash 7s infinite; }
+@keyframes flash { 0%, 88%, 100% { opacity: 0; } 89% { opacity: .55; } 90% { opacity: .05; } 91.5% { opacity: .4; } 94% { opacity: 0; } }
+
+/* ===== Décor : collines et éoliennes ===== */
+.land { position: fixed; left: 0; right: 0; bottom: 0; height: 46vh; min-height: 240px; z-index: -2; pointer-events: none; }
+.land__layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+.turbine { position: absolute; height: var(--h); aspect-ratio: 60 / 100; transform: translate(-50%, -97%); }
+.turbine svg { display: block; width: 100%; height: 100%; fill: var(--turbine); }
+.turbine__rotor { transform-origin: 30px 30px; animation: spin var(--spin) linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .turbine__rotor, .sky__rain, .sky__snow, .sky__stars, .sky__flash { animation: none !important; }
+  body { --ambiance-speed: 0s; }
+}
+
+/* ===== Écrans ===== */
+.screen {
+  display: none; width: 100%; max-width: 520px; margin: 0 auto;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 16px calc(32px + env(safe-area-inset-bottom, 0px));
+}
+.screen.active { display: block; }
+
+.app-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.1rem, 9.5vw, 2.9rem); line-height: 1.05;
+  text-align: center; margin: 22px 0 10px; color: var(--title);
+  text-shadow: 0 2px 10px var(--title-shadow), 0 1px 0 var(--title-shadow);
+}
+.app-title__line { display: block; font-size: .56em; font-weight: 600; margin-top: 4px; }
+.app-subtitle {
+  text-align: center; color: var(--subtitle); font-weight: 700;
+  font-size: 1rem; line-height: 1.35; margin: 0 auto 28px; max-width: 34ch;
+  text-shadow: 0 1px 6px var(--title-shadow);
+}
+
+/* ===== Boutons de mode ===== */
+.mode-list { display: flex; flex-direction: column; gap: 20px; }
+.mode-btn {
+  position: relative; overflow: hidden; isolation: isolate;
+  --c-dark: #3D78B8; --c-text: #10345E; --c-inset: rgba(255,255,255,.75); --c-shine: rgba(255,255,255,.5);
+  font-family: var(--font-body); cursor: pointer; border: none; width: 100%;
+  border-radius: var(--radius-lg); padding: 20px 22px; min-height: 104px;
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  gap: 6px; text-align: left; color: var(--c-text);
+  box-shadow: 0 6px 0 var(--c-dark), 0 14px 22px rgba(20,40,60,.25), inset 0 2px 0 var(--c-inset), inset 0 -2px 0 rgba(0,0,0,.08);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+/* Reflet discret qui glisse au survol */
+.mode-btn::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: linear-gradient(112deg, transparent 32%, var(--c-shine) 44%, rgba(255,255,255,.06) 52%, transparent 60%);
+  transform: translateX(-30%); transition: transform .7s ease;
+}
+.mode-btn:hover::after { transform: translateX(30%); }
+.mode-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--c-dark), 0 6px 12px rgba(20,40,60,.25), inset 0 2px 0 var(--c-inset); }
+.mode-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.mode-btn > span { position: relative; z-index: 1; }
+.mode-btn__title { font-family: var(--font-display); font-size: 1.38rem; font-weight: 600; }
+.mode-btn__subtitle { font-size: .88rem; font-weight: 700; opacity: .88; line-height: 1.3; }
+.mode-btn--icon { padding-right: 90px; }
+.mode-btn__ico { position: absolute; z-index: 1; right: 18px; top: 50%; width: 60px; height: 60px; transform: translateY(-50%); overflow: visible; }
+.mode-btn__deco { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.mode-btn.nudge { animation: nudge .4s ease; }
+@keyframes nudge { 20% { transform: translateX(-5px); } 45% { transform: translateX(5px); } 70% { transform: translateX(-3px); } 100% { transform: none; } }
+
+/* Leçons : plein jour, soleil éclatant en haut à gauche */
+.mode-btn--jour {
+  --c-dark: #3C76B6; --c-text: #0F3360;
+  background:
+    radial-gradient(circle at 26px 20px, #FFFFF6 0 22px, rgba(255,247,196,.95) 34px, rgba(255,233,150,.5) 70px, rgba(255,233,150,0) 150px),
+    linear-gradient(165deg, #D9EFFF 0%, #A2CFF4 38%, #6EA8E3 100%);
+}
+.mode-btn--jour::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-conic-gradient(from 3deg at 26px 20px, rgba(255,255,236,.55) 0deg 4deg, transparent 4deg 13deg);
+  -webkit-mask-image: radial-gradient(circle at 26px 20px, transparent 0 24px, #000 30px, transparent 190px);
+          mask-image: radial-gradient(circle at 26px 20px, transparent 0 24px, #000 30px, transparent 190px);
+}
+
+/* Mode histoire : orangé d'automne, bleu très pâle en haut */
+.mode-btn--automne {
+  --c-dark: #AE551B; --c-text: #48200A;
+  background: linear-gradient(0deg, #E3742A 0%, #EE9244 36%, #F5B676 64%, #F4D9BC 84%, #DDEEF8 100%);
+}
+.mode-btn__deco--leaves { opacity: .38; }
+
+/* Challenge : la nuit, lune en haut à droite */
+.mode-btn--nuit {
+  --c-dark: #04081A; --c-text: #FFF3D6; --c-inset: rgba(255,255,255,.16); --c-shine: rgba(255,255,255,.16);
+  background:
+    radial-gradient(circle at calc(100% - 24px) 20px, rgba(245,240,215,.55) 0 16px, rgba(190,205,255,.32) 34px, rgba(150,170,240,.12) 80px, transparent 170px),
+    linear-gradient(165deg, #26336A 0%, #141C42 55%, #0B112B 100%);
+}
+.mode-btn__moon { position: absolute; z-index: 1; right: 8px; top: 6px; width: 30px; height: 30px; }
+.mode-btn--nuit .mode-btn__ico { top: auto; bottom: 14px; transform: none; }
+
+/* Progression (Histoire) et record (Challenge) */
+.mode-btn__progress { white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 800; margin-top: 2px; }
+.mode-btn__bar { width: clamp(70px, 26vw, 120px); height: 9px; border-radius: 999px; background: rgba(255,255,255,.55); overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,.15); }
+.mode-btn__bar > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7A9A2E, #5E7F1E); }
+.mode-btn__best { white-space: nowrap; font-size: .78rem; font-weight: 800; padding: 2px 10px; border-radius: 999px; background: rgba(255,255,255,.55); }
+.mode-btn--nuit .mode-btn__best { background: rgba(255,255,255,.14); }
+.mode-btn [hidden] { display: none; }
+
+/* ===== Aperçu provisoire des ambiances ===== */
+.demo {
+  margin: 30px auto 0; padding: 12px 14px 10px; border-radius: 20px;
+  background: rgba(255,255,255,.72); box-shadow: var(--shadow-card);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.demo__title { margin: 0 0 8px; font-weight: 800; text-align: center; }
+.demo__title small { font-weight: 700; color: var(--ink-soft); }
+.demo__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.demo__chip {
+  font: inherit; font-weight: 800; font-size: .88rem; cursor: pointer; min-height: 38px; padding: 6px 14px;
+  border-radius: 999px; border: 2px solid rgba(35,52,74,.2); background: rgba(255,255,255,.8); color: var(--ink);
+}
+.demo__chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.demo__toggle { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font-size: .88rem; font-weight: 700; min-height: 36px; cursor: pointer; }
+.demo__toggle input { width: 20px; height: 20px; accent-color: var(--ink); }
+
+/* ===== Message court ===== */
+.toast {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  padding: 10px 20px; border-radius: 999px; background: rgba(20,32,48,.88); color: #fff; font-weight: 800;
+  box-shadow: var(--shadow-card); z-index: 50; animation: toast-in .25s ease;
+}
+.toast[hidden] { display: none; }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 10px); } }

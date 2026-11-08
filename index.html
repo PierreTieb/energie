@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4A8FD6">
+<title>L'Énergie sous toutes ses formes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-ambiance="jour">
+
+  <!-- ===== DÉCOR : ciel + paysage (fixe, derrière tout) ===== -->
+  <div class="sky" aria-hidden="true">
+    <div class="sky__stars"></div>
+    <div class="sky__rain"></div>
+    <div class="sky__snow"></div>
+    <div class="sky__flash"></div>
+  </div>
+  <div class="land" aria-hidden="true">
+    <svg class="land__layer" viewBox="0 0 1000 400" preserveAspectRatio="none">
+      <path style="fill:var(--hill-far)" d="M0 170C120 120 220 110 330 140C440 170 520 100 640 90C760 80 860 130 1000 120V400H0Z"/>
+    </svg>
+    <!-- Éoliennes posées sur la colline du fond -->
+    <div class="turbine" style="left:64%; top:22.5%; --h:12vh; --spin:7s"><svg viewBox="0 0 60 100"><path d="M28.6 30h2.8l1.6 70h-6z"/><rect x="26" y="27" width="9" height="5" rx="2.2"/><g class="turbine__rotor"><path d="M30 30 L28.4 4 Q30 1 31.6 4Z"/><path d="M30 30 L28.4 4 Q30 1 31.6 4Z" transform="rotate(120 30 30)"/><path d="M30 30 L28.4 4 Q30 1 31.6 4Z" transform="rotate(240 30 30)"/><circle cx="30" cy="30" r="2.6"/></g></svg></div>
+    <div class="turbine" style="left:33%; top:35%; --h:8vh; --spin:9s"><svg viewBox="0 0 60 100"><path d="M28.6 30h2.8l1.6 70h-6z"/><rect x="26" y="27" width="9" height="5" rx="2.2"/><g class="turbine__rotor"><path d="M30 30 L28.4 4 Q30 1 31.6 4Z" transform="rotate(40 30 30)"/><path d="M30 30 L28.4 4 Q30 1 31.6 4Z" transform="rotate(160 30 30)"/><path d="M30 30 L28.4 4 Q30 1 31.6 4Z" transform="rotate(280 30 30)"/><circle cx="30" cy="30" r="2.6"/></g></svg></div>
+    <svg class="land__layer" viewBox="0 0 1000 400" preserveAspectRatio="none">
+      <path style="fill:var(--hill-mid)" d="M0 240C140 200 260 190 380 215C500 240 600 210 720 190C840 172 920 200 1000 210V400H0Z"/>
+      <path style="fill:var(--hill-near)" d="M0 310C150 280 300 290 450 305C600 320 760 290 1000 300V400H0Z"/>
+    </svg>
+  </div>
+
+  <!-- Filtre « pastel » partagé par toutes les icônes : bords tremblés + grain de craie -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="pastel" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="4" result="warp"/>
+        <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="wobbly"/>
+        <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="9" result="grain"/>
+        <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.9 0 0 0 2.05" result="grainMask"/>
+        <feComposite in="wobbly" in2="grainMask" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ===== ÉCRAN : ACCUEIL ===== -->
+  <section id="screen-home" class="screen active">
+    <h1 class="app-title">L'Énergie <span class="app-title__line">sous toutes ses formes</span></h1>
+    <p class="app-subtitle">Travailler la notion d'énergie, de sa production à sa consommation</p>
+
+    <div class="mode-list">
+      <!-- Leçons : plein jour, soleil en haut à gauche -->
+      <button type="button" id="btn-lessons" class="mode-btn mode-btn--jour mode-btn--icon">
+        <span class="mode-btn__title">Leçons</span>
+        <span class="mode-btn__subtitle">Comprendre pas à pas les sources, les formes et les conversions d'énergie</span>
+        <svg class="mode-btn__ico" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#pastel)">
+          <path d="M31 12C24 9 16 12 15 19C9 20 6 27 9 32C5 37 8 45 14 46C15 52 23 55 28 51C30 53 31 52 31 50Z" fill="#F7B9CB"/>
+          <path d="M33 12C40 9 48 12 49 19C55 20 58 27 55 32C59 37 56 45 50 46C49 52 41 55 36 51C34 53 33 52 33 50Z" fill="#F4A9BF"/>
+          <path d="M31 12C24 9 16 12 15 19C9 20 6 27 9 32C5 37 8 45 14 46C15 52 23 55 28 51C30 53 31 52 31 50ZM33 12C40 9 48 12 49 19C55 20 58 27 55 32C59 37 56 45 50 46C49 52 41 55 36 51C34 53 33 52 33 50Z" fill="none" stroke="#C4698A" stroke-width="2.4" stroke-linejoin="round"/>
+          <g fill="none" stroke="#C4698A" stroke-width="2" stroke-linecap="round" opacity=".8"><path d="M20 21q6 1 7 7M13 32q6-3 10 2M19 43q4-4 9-2M44 21q-6 1-7 7M51 32q-6-3-10 2M45 43q-4-4-9-2"/></g>
+          <path d="M18 16q4-3 9-3M12 25q1-3 3-4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".75"/>
+        </g></svg>
+      </button>
+
+      <!-- Mode histoire : fin d'après-midi d'automne -->
+      <button type="button" id="btn-story" class="mode-btn mode-btn--automne mode-btn--icon">
+        <svg class="mode-btn__deco mode-btn__deco--leaves" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g class="leaf" fill="#A8410F" transform="translate(150 12) rotate(-25)"><path d="M0 0C6-7 18-7 24 0 18 7 6 7 0 0Z"/><path d="M-5 1L22 0" stroke="#A8410F" stroke-width="1.2" fill="none"/></g>
+          <g class="leaf" fill="#8E5A14" transform="translate(172 80) rotate(30)"><path d="M0 0C5-6 15-6 20 0 15 6 5 6 0 0Z"/><path d="M-4 1L18 0" stroke="#8E5A14" stroke-width="1.1" fill="none"/></g>
+          <g class="leaf" fill="#B8481A" transform="translate(96 92) rotate(-12)"><path d="M0 0C4-5 12-5 16 0 12 5 4 5 0 0Z"/><path d="M-3 .8L14 0" stroke="#B8481A" stroke-width="1" fill="none"/></g>
+        </svg>
+        <span class="mode-btn__title">Mode histoire</span>
+        <span class="mode-btn__subtitle">Suivre l'énergie de sa production jusqu'à chez toi, chapitre après chapitre</span>
+        <span class="mode-btn__progress demo-progress" hidden><span class="mode-btn__bar"><span style="width:25%"></span></span>Chapitre 2/8</span>
+        <svg class="mode-btn__ico" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#pastel)">
+          <path d="M5 20L32 24L59 20V51L32 55L5 51Z" fill="#9DB8E8"/>
+          <path d="M9 16C17 13 26 15 32 21V51C26 46 17 45 9 47Z" fill="#FFF3DA"/>
+          <path d="M55 16C47 13 38 15 32 21V51C38 46 47 45 55 47Z" fill="#FBE7C2"/>
+          <path d="M9 16C17 13 26 15 32 21C38 15 47 13 55 16V47C47 45 38 46 32 51C26 46 17 45 9 47Z" fill="none" stroke="#9C7A55" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M32 21V51" stroke="#9C7A55" stroke-width="2"/>
+          <g stroke="#C7A27C" stroke-width="1.8" stroke-linecap="round"><path d="M14 24q6-1 13 2M14 30q6-1 13 2M14 36q6-1 13 2M37 26q7-3 13-2M37 32q7-3 13-2M37 38q5-2 9-2"/></g>
+          <path d="M44 15v13l3-3 3 3V14.6" fill="#EE8E8E" stroke="#C86464" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M5 20L32 24L59 20V51L32 55L5 51Z" fill="none" stroke="#6F8CC2" stroke-width="2" stroke-linejoin="round" opacity=".7"/>
+        </g></svg>
+      </button>
+
+      <!-- Challenge : la nuit, lune en haut à droite -->
+      <button type="button" id="btn-challenge" class="mode-btn mode-btn--nuit mode-btn--icon">
+        <svg class="mode-btn__deco" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g fill="#fff"><circle cx="70" cy="5" r=".9" opacity=".6"/><circle cx="112" cy="8" r="1.1" opacity=".75"/><circle cx="36" cy="4" r=".7" opacity=".45"/><circle cx="150" cy="16" r=".8" opacity=".5"/><circle cx="128" cy="96" r=".8" opacity=".45"/><circle cx="60" cy="97" r=".7" opacity=".4"/><circle cx="196" cy="62" r=".8" opacity=".5"/>
+          <path d="M138 4l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" opacity=".7"/><path d="M96 93l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" opacity=".5"/></g>
+        </svg>
+        <svg class="mode-btn__moon" viewBox="0 0 40 40" aria-hidden="true"><g filter="url(#pastel)"><path d="M26 5A15 15 0 1 0 35 27 12 12 0 1 1 26 5Z" fill="#F8F3DC"/><circle cx="17" cy="27" r="2" fill="#E0D8B8"/><circle cx="12" cy="19" r="1.4" fill="#E0D8B8"/></g></svg>
+        <span class="mode-btn__title">Challenge</span>
+        <span class="mode-btn__subtitle">Relève des défis et gagne un maximum de points</span>
+        <span class="mode-btn__best demo-progress" hidden>Record : 72 pts 🥈</span>
+        <svg class="mode-btn__ico" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#pastel)">
+          <path d="M18 14H10C9 25 14 29 21 30M46 14H54C55 25 50 29 43 30" fill="none" stroke="#E2B24A" stroke-width="3.6" stroke-linecap="round"/>
+          <path d="M17 9H47V22C47 32 40 39 32 39C24 39 17 32 17 22Z" fill="#F8D877"/>
+          <path d="M28.5 38h7v8h-7z" fill="#EFC45C"/>
+          <path d="M21 46H43L45 55H19Z" fill="#C9A27A"/>
+          <path d="M17 9H47V22C47 32 40 39 32 39C24 39 17 32 17 22ZM21 46H43L45 55H19Z" fill="none" stroke="#B88A2E" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M32 16l2.4 4.8 5.3.8-3.8 3.7.9 5.3-4.8-2.5-4.8 2.5.9-5.3-3.8-3.7 5.3-.8z" fill="#FFF6D2"/>
+          <path d="M22 13v9q1 6 5 10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".7"/>
+        </g></svg>
+      </button>
+    </div>
+
+    <!-- Aperçu provisoire : à retirer une fois les ambiances associées aux modules -->
+    <div class="demo" id="demo">
+      <p class="demo__title">Aperçu des ambiances <small>(provisoire)</small></p>
+      <div class="demo__chips" id="demo-chips"></div>
+      <label class="demo__toggle"><input type="checkbox" id="demo-progress"> Exemple de progression et de record</label>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
