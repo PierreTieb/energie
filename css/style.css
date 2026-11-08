@@ -14,7 +14,7 @@
 @property --title-shadow { syntax: '<color>'; inherits: true; initial-value: rgba(22,60,110,.45); }
 @property --subtitle  { syntax: '<color>'; inherits: true; initial-value: #F2F8FF; }
 @property --stars     { syntax: '<number>'; inherits: true; initial-value: 0; }
-@property --rain      { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --clouds    { syntax: '<number>'; inherits: true; initial-value: 0; }
 @property --snow      { syntax: '<number>'; inherits: true; initial-value: 0; }
 
 :root {
@@ -31,53 +31,58 @@
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button { font-family: inherit; -webkit-user-select: none; user-select: none; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: #4A8FD6; }
+/* Le fond de <html> peint aussi tout ce qui dépasse de la page (barre d'état, rebond du défilement) :
+   ciel en haut, sol en bas, aux couleurs de l'ambiance. */
+html {
+  -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+  background: linear-gradient(180deg, var(--sky-top) 0 50%, var(--hill-near) 50% 100%) fixed var(--sky-top);
+}
 html, body { margin: 0; padding: 0; color: var(--ink); font-family: var(--font-body); font-weight: 600; }
-body {
-  min-height: 100vh; min-height: 100dvh; overflow-x: hidden; position: relative;
+body { min-height: 100vh; min-height: 100dvh; overflow-x: hidden; position: relative; }
+html {
   transition: --sky-top var(--ambiance-speed), --sky-mid var(--ambiance-speed), --sky-low var(--ambiance-speed),
               --hill-far var(--ambiance-speed), --hill-mid var(--ambiance-speed), --hill-near var(--ambiance-speed),
               --turbine var(--ambiance-speed), --glow var(--ambiance-speed),
               --title var(--ambiance-speed), --title-shadow var(--ambiance-speed), --subtitle var(--ambiance-speed),
-              --stars var(--ambiance-speed), --rain var(--ambiance-speed), --snow var(--ambiance-speed);
+              --stars var(--ambiance-speed), --clouds var(--ambiance-speed), --snow var(--ambiance-speed);
 }
 
 /* ===== Ambiances (à associer aux modules plus tard) ===== */
-body[data-ambiance="jour"] { /* valeurs initiales ci-dessus */ }
-body[data-ambiance="aube"] {
+html[data-ambiance="jour"] { /* valeurs initiales ci-dessus */ }
+html[data-ambiance="aube"] {
   --sky-top: #6C7DC4; --sky-mid: #E6A8BE; --sky-low: #FFE3C9;
   --hill-far: #B6B7A4; --hill-mid: #87A47A; --hill-near: #5F8A55;
   --turbine: #FBEFEA; --glow: rgba(255,214,190,.6);
   --title: #FFFFFF; --title-shadow: rgba(80,50,110,.45); --subtitle: #FFF4F2;
 }
-body[data-ambiance="crepuscule"] {
+html[data-ambiance="crepuscule"] {
   --sky-top: #3E4D8F; --sky-mid: #E98A57; --sky-low: #FFC77E;
   --hill-far: #9C7E6A; --hill-mid: #6E6F48; --hill-near: #4A5634;
   --turbine: #FFE2C4; --glow: rgba(255,170,90,.55);
   --title: #FFF7EC; --title-shadow: rgba(70,30,20,.5); --subtitle: #FFE9D4;
 }
-body[data-ambiance="nuit"] {
+html[data-ambiance="nuit"] {
   --sky-top: #070D26; --sky-mid: #18265A; --sky-low: #2F4580;
   --hill-far: #22355A; --hill-mid: #172B3E; --hill-near: #0F1F2B;
   --turbine: #8C9BC0; --glow: rgba(150,170,255,.18);
   --title: #F4F2FF; --title-shadow: rgba(0,0,0,.6); --subtitle: #C9D2F2;
   --stars: 1;
 }
-body[data-ambiance="orage"] {
+html[data-ambiance="orage"] {
   --sky-top: #3D464F; --sky-mid: #6C7781; --sky-low: #9AA3AA;
   --hill-far: #7D8A80; --hill-mid: #5B6E5A; --hill-near: #3F5240;
   --turbine: #D3D9DD; --glow: rgba(200,210,220,.15);
   --title: #FFFFFF; --title-shadow: rgba(0,0,0,.5); --subtitle: #E6EBEF;
-  --rain: 1;
+  --clouds: 1;
 }
-body[data-ambiance="hiver"] {
+html[data-ambiance="hiver"] {
   --sky-top: #8FAECB; --sky-mid: #CFDDEA; --sky-low: #F4F8FB;
   --hill-far: #E3EBF2; --hill-mid: #D2DEE8; --hill-near: #C2D1DE;
   --turbine: #FFFFFF; --glow: rgba(255,255,255,.5);
   --title: #FFFFFF; --title-shadow: rgba(40,70,110,.55); --subtitle: #F7FBFF;
   --snow: 1;
 }
-body[data-ambiance="canicule"] {
+html[data-ambiance="canicule"] {
   --sky-top: #5FA6DE; --sky-mid: #F2D79A; --sky-low: #FFF0C2;
   --hill-far: #CDBB78; --hill-mid: #B49E52; --hill-near: #93803A;
   --turbine: #FFF9EA; --glow: rgba(255,240,170,.75);
@@ -88,7 +93,7 @@ body[data-ambiance="canicule"] {
 .sky { position: fixed; inset: 0; z-index: -3; pointer-events: none;
   background:
     radial-gradient(ellipse 90% 55% at 50% 0%, var(--glow), transparent 70%),
-    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 48%, var(--sky-low) 72%, var(--sky-low) 100%);
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 62%, var(--hill-far) 82%, var(--hill-near) 100%);
 }
 .sky > div { position: absolute; inset: 0; }
 .sky__stars {
@@ -106,13 +111,21 @@ body[data-ambiance="canicule"] {
   animation: twinkle 5s ease-in-out infinite alternate;
 }
 @keyframes twinkle { from { filter: brightness(1); } to { filter: brightness(.65); } }
-.sky__rain {
-  opacity: calc(var(--rain) * .55);
-  background-image: repeating-linear-gradient(105deg, transparent 0 14px, rgba(220,230,240,.55) 14px 15px, transparent 15px 31px);
-  background-size: 100% 140px;
-  animation: rain .5s linear infinite;
+.sky__clouds {
+  left: -15%; right: -15%; bottom: 40%;
+  opacity: var(--clouds);
+  background:
+    radial-gradient(ellipse 30% 22% at 12% 20%, rgba(52,58,66,.95), transparent 70%),
+    radial-gradient(ellipse 26% 18% at 34% 10%, rgba(70,77,86,.9), transparent 70%),
+    radial-gradient(ellipse 32% 24% at 58% 18%, rgba(48,54,62,.95), transparent 70%),
+    radial-gradient(ellipse 28% 20% at 84% 12%, rgba(66,72,80,.9), transparent 70%),
+    radial-gradient(ellipse 34% 20% at 26% 42%, rgba(88,95,104,.75), transparent 70%),
+    radial-gradient(ellipse 30% 18% at 70% 46%, rgba(80,87,96,.7), transparent 70%),
+    radial-gradient(ellipse 40% 16% at 48% 66%, rgba(110,117,126,.5), transparent 70%);
+  filter: blur(10px);
+  animation: drift 40s ease-in-out infinite alternate;
 }
-@keyframes rain { to { background-position: -38px 140px; } }
+@keyframes drift { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
 .sky__snow {
   opacity: var(--snow);
   background-image:
@@ -127,11 +140,11 @@ body[data-ambiance="canicule"] {
 @keyframes snow { to { background-position: 40px 180px, -30px 180px, 20px 180px, -20px 180px, 30px 180px; } }
 /* Éclair : seulement pendant l'orage */
 .sky__flash { background: #fff; opacity: 0; }
-body[data-ambiance="orage"] .sky__flash { animation: flash 7s infinite; }
+html[data-ambiance="orage"] .sky__flash { animation: flash 7s infinite; }
 @keyframes flash { 0%, 88%, 100% { opacity: 0; } 89% { opacity: .55; } 90% { opacity: .05; } 91.5% { opacity: .4; } 94% { opacity: 0; } }
 
 /* ===== Décor : collines et éoliennes ===== */
-.land { position: fixed; left: 0; right: 0; bottom: 0; height: 46vh; min-height: 240px; z-index: -2; pointer-events: none; }
+.land { position: fixed; left: -3%; right: -3%; bottom: 0; height: 40vh; min-height: 210px; z-index: -2; pointer-events: none; opacity: .38; filter: blur(5px); }
 .land__layer { position: absolute; inset: 0; width: 100%; height: 100%; }
 .turbine { position: absolute; height: var(--h); aspect-ratio: 60 / 100; transform: translate(-50%, -97%); }
 .turbine svg { display: block; width: 100%; height: 100%; fill: var(--turbine); }
@@ -139,8 +152,8 @@ body[data-ambiance="orage"] .sky__flash { animation: flash 7s infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .turbine__rotor, .sky__rain, .sky__snow, .sky__stars, .sky__flash { animation: none !important; }
-  body { --ambiance-speed: 0s; }
+  .turbine__rotor, .sky__clouds, .sky__snow, .sky__stars, .sky__flash { animation: none !important; }
+  html { --ambiance-speed: 0s; }
 }
 
 /* ===== Écrans ===== */
@@ -193,26 +206,35 @@ body[data-ambiance="orage"] .sky__flash { animation: flash 7s infinite; }
 .mode-btn.nudge { animation: nudge .4s ease; }
 @keyframes nudge { 20% { transform: translateX(-5px); } 45% { transform: translateX(5px); } 70% { transform: translateX(-3px); } 100% { transform: none; } }
 
-/* Leçons : plein jour, soleil éclatant en haut à gauche */
+/* Leçons : crépuscule, soleil orangé qui se couche à droite */
+.mode-btn--crepuscule {
+  --c-dark: #A9573E; --c-text: #321A45;
+  background:
+    radial-gradient(circle at calc(100% - 48px) calc(100% + 2px), #FFE1A2 0 15px, #FFB15C 27px, #F78B3F 31px, rgba(250,140,70,.62) 36px, rgba(250,140,70,.25) 80px, rgba(250,140,70,0) 170px),
+    linear-gradient(180deg, #B6B2E4 0%, #E3AFC3 42%, #F6BC8E 74%, #F39A5E 100%);
+}
+/* Fins nuages étirés devant le soleil couchant */
+.mode-btn--crepuscule::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 120px 4px at calc(100% - 70px) calc(100% - 22px), rgba(150,95,140,.45), transparent 70%),
+    radial-gradient(ellipse 90px 3px at calc(100% - 20px) calc(100% - 12px), rgba(150,95,140,.38), transparent 70%),
+    radial-gradient(ellipse 160px 5px at 55% 22%, rgba(255,255,255,.35), transparent 70%);
+}
+
+/* Mode histoire : plein jour, soleil tout juste visible au sommet, surtout son halo */
 .mode-btn--jour {
   --c-dark: #3C76B6; --c-text: #0F3360;
   background:
-    radial-gradient(circle at 26px 20px, #FFFFF6 0 22px, rgba(255,247,196,.95) 34px, rgba(255,233,150,.5) 70px, rgba(255,233,150,0) 150px),
-    linear-gradient(165deg, #D9EFFF 0%, #A2CFF4 38%, #6EA8E3 100%);
+    radial-gradient(circle at 62% -22px, #FFFFF6 0 30px, rgba(255,249,210,.95) 40px, rgba(255,240,175,.55) 80px, rgba(255,240,175,.18) 150px, rgba(255,240,175,0) 260px),
+    linear-gradient(180deg, #DDF0FF 0%, #A6D2F5 45%, #6FAAE4 100%);
 }
 .mode-btn--jour::before {
   content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: repeating-conic-gradient(from 3deg at 26px 20px, rgba(255,255,236,.55) 0deg 4deg, transparent 4deg 13deg);
-  -webkit-mask-image: radial-gradient(circle at 26px 20px, transparent 0 24px, #000 30px, transparent 190px);
-          mask-image: radial-gradient(circle at 26px 20px, transparent 0 24px, #000 30px, transparent 190px);
+  background: repeating-conic-gradient(from 93deg at 62% -22px, rgba(255,255,236,.45) 0deg 3deg, transparent 3deg 11deg);
+  -webkit-mask-image: radial-gradient(circle at 62% -22px, transparent 0 34px, #000 44px, transparent 180px);
+          mask-image: radial-gradient(circle at 62% -22px, transparent 0 34px, #000 44px, transparent 180px);
 }
-
-/* Mode histoire : orangé d'automne, bleu très pâle en haut */
-.mode-btn--automne {
-  --c-dark: #AE551B; --c-text: #48200A;
-  background: linear-gradient(0deg, #E3742A 0%, #EE9244 36%, #F5B676 64%, #F4D9BC 84%, #DDEEF8 100%);
-}
-.mode-btn__deco--leaves { opacity: .38; }
 
 /* Challenge : la nuit, lune en haut à droite */
 .mode-btn--nuit {

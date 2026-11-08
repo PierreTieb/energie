@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-ambiance="jour">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#4A8FD6">
+<!-- Mode appli web : le décor passe sous la barre d'état (heure, batterie) au lieu d'une bande de couleur fixe -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="L'Énergie">
 <title>L'Énergie sous toutes ses formes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-ambiance="jour">
+<body>
 
   <!-- ===== DÉCOR : ciel + paysage (fixe, derrière tout) ===== -->
   <div class="sky" aria-hidden="true">
     <div class="sky__stars"></div>
-    <div class="sky__rain"></div>
+    <div class="sky__clouds"></div>
     <div class="sky__snow"></div>
     <div class="sky__flash"></div>
   </div>
@@ -51,8 +56,8 @@
     <p class="app-subtitle">Travailler la notion d'énergie, de sa production à sa consommation</p>
 
     <div class="mode-list">
-      <!-- Leçons : plein jour, soleil en haut à gauche -->
-      <button type="button" id="btn-lessons" class="mode-btn mode-btn--jour mode-btn--icon">
+      <!-- Leçons : crépuscule, soleil orangé à droite -->
+      <button type="button" id="btn-lessons" class="mode-btn mode-btn--crepuscule mode-btn--icon">
         <span class="mode-btn__title">Leçons</span>
         <span class="mode-btn__subtitle">Comprendre pas à pas les sources, les formes et les conversions d'énergie</span>
         <svg class="mode-btn__ico" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#pastel)">
@@ -64,25 +69,20 @@
         </g></svg>
       </button>
 
-      <!-- Mode histoire : fin d'après-midi d'automne -->
-      <button type="button" id="btn-story" class="mode-btn mode-btn--automne mode-btn--icon">
-        <svg class="mode-btn__deco mode-btn__deco--leaves" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <g class="leaf" fill="#A8410F" transform="translate(150 12) rotate(-25)"><path d="M0 0C6-7 18-7 24 0 18 7 6 7 0 0Z"/><path d="M-5 1L22 0" stroke="#A8410F" stroke-width="1.2" fill="none"/></g>
-          <g class="leaf" fill="#8E5A14" transform="translate(172 80) rotate(30)"><path d="M0 0C5-6 15-6 20 0 15 6 5 6 0 0Z"/><path d="M-4 1L18 0" stroke="#8E5A14" stroke-width="1.1" fill="none"/></g>
-          <g class="leaf" fill="#B8481A" transform="translate(96 92) rotate(-12)"><path d="M0 0C4-5 12-5 16 0 12 5 4 5 0 0Z"/><path d="M-3 .8L14 0" stroke="#B8481A" stroke-width="1" fill="none"/></g>
-        </svg>
+      <!-- Mode histoire : plein jour, soleil tout juste visible au sommet -->
+      <button type="button" id="btn-story" class="mode-btn mode-btn--jour mode-btn--icon">
         <span class="mode-btn__title">Mode histoire</span>
         <span class="mode-btn__subtitle">Suivre l'énergie de sa production jusqu'à chez toi, chapitre après chapitre</span>
         <span class="mode-btn__progress demo-progress" hidden><span class="mode-btn__bar"><span style="width:25%"></span></span>Chapitre 2/8</span>
         <svg class="mode-btn__ico" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#pastel)">
-          <path d="M5 20L32 24L59 20V51L32 55L5 51Z" fill="#9DB8E8"/>
+          <path d="M5 20L32 24L59 20V51L32 55L5 51Z" fill="#F4A98A"/>
           <path d="M9 16C17 13 26 15 32 21V51C26 46 17 45 9 47Z" fill="#FFF3DA"/>
           <path d="M55 16C47 13 38 15 32 21V51C38 46 47 45 55 47Z" fill="#FBE7C2"/>
           <path d="M9 16C17 13 26 15 32 21C38 15 47 13 55 16V47C47 45 38 46 32 51C26 46 17 45 9 47Z" fill="none" stroke="#9C7A55" stroke-width="2.2" stroke-linejoin="round"/>
           <path d="M32 21V51" stroke="#9C7A55" stroke-width="2"/>
           <g stroke="#C7A27C" stroke-width="1.8" stroke-linecap="round"><path d="M14 24q6-1 13 2M14 30q6-1 13 2M14 36q6-1 13 2M37 26q7-3 13-2M37 32q7-3 13-2M37 38q5-2 9-2"/></g>
           <path d="M44 15v13l3-3 3 3V14.6" fill="#EE8E8E" stroke="#C86464" stroke-width="1.6" stroke-linejoin="round"/>
-          <path d="M5 20L32 24L59 20V51L32 55L5 51Z" fill="none" stroke="#6F8CC2" stroke-width="2" stroke-linejoin="round" opacity=".7"/>
+          <path d="M5 20L32 24L59 20V51L32 55L5 51Z" fill="none" stroke="#C9714F" stroke-width="2" stroke-linejoin="round" opacity=".75"/>
         </g></svg>
       </button>
 

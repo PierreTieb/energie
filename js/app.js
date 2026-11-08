@@ -24,7 +24,7 @@
 
   function setAmbiance(id) {
     var a = AMBIANCES.filter(function (x) { return x.id === id; })[0] || AMBIANCES[0];
-    document.body.setAttribute('data-ambiance', a.id);
+    document.documentElement.setAttribute('data-ambiance', a.id);
     if (meta) meta.setAttribute('content', a.top);
     var chips = document.querySelectorAll('.demo__chip');
     for (var i = 0; i < chips.length; i++) chips[i].setAttribute('aria-pressed', chips[i].dataset.id === a.id ? 'true' : 'false');
